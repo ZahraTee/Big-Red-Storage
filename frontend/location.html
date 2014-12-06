@@ -10,7 +10,6 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 	</head>
 	<body>
@@ -52,13 +51,13 @@
 
     </nav>
 
-
-
-
 <div class="container">
 
-	<div class = "page-header"> 
-		<h2>Select a Location</h2>
+	<div class = "page-header">
+				<div class = "page-heading">
+					<a href="index.html" class="btn btn-default">Back</a>
+					<h2>Select a Location</h2>
+				</div>
 
 		<div class="stepwizard">
 		    <div class="stepwizard-row">
@@ -68,22 +67,27 @@
 		        </div>
 		        <div class="stepwizard-step">
 		            <button type="button" class="btn btn-default btn-circle">2</button>
-		            <p>Room Options</p>
+		            <p>Select Room Size</p>
 		        </div>
 		        <div class="stepwizard-step">
-		            <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-		            <p>Add Extras</p>
+		            <button type="button" class="btn btn-default btn-circle">3</button>
+		            <p>Select Dates</p>
 		        </div>
 		        <div class="stepwizard-step">
 		            <button type="button" class="btn btn-default btn-circle" disabled="disabled">4</button>
-		            <p>Review Booking</p>
+		            <p>Add Extras</p>
 		        </div>
 		        <div class="stepwizard-step">
 		            <button type="button" class="btn btn-default btn-circle" disabled="disabled">5</button>
+		            <p>Review Booking</p>
+		        </div>
+		        <div class="stepwizard-step">
+		            <button type="button" class="btn btn-default btn-circle" disabled="disabled">6</button>
 		            <p>Payment</p>
 		        </div>  
 		    </div>
 		</div>
+
 	</div>
 
 	<div class="row">
@@ -112,11 +116,8 @@
 		        <div class="panel panel-default">
 		            <div class="panel-heading">
 		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		                    	<div class="radio">
-									Location 1 <span class = "pull-right"> <input type="radio" name="optradio"></span>
-								</div>
-		                    </a>
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Location 1 </a>
+		                    <span class = "pull-right"> <input type="radio" name="optradio"></span>
 		                </h4>
 		            </div>
 		            <div id="collapseOne" class="panel-collapse collapse in">
@@ -148,11 +149,8 @@
 		        <div class="panel panel-default">
 		            <div class="panel-heading">
 		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-			                    <div class="radio">
-										Location 2 <span class = "pull-right"> <input type="radio" name="optradio"></span>
-								</div>
-							</a>
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Location 2 </a>
+							<span class = "pull-right"> <input type="radio" name="optradio"></span>
 		                </h4>
 		            </div>
 		            <div id="collapseTwo" class="panel-collapse collapse">
@@ -184,11 +182,8 @@
 		        <div class="panel panel-default">
 		            <div class="panel-heading">
 		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-			                    <div class="radio">
-										Location 3 <span class = "pull-right"> <input type="radio" name="optradio"></span>
-								</div>
-							</a>
+		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> Location 3 </a>
+		                    <span class = "pull-right"> <input type="radio" name="optradio"></span>
 		                </h4>
 		            </div>
 		            <div id="collapseThree" class="panel-collapse collapse">
@@ -218,11 +213,12 @@
 		            </div>
 		        </div>
 			</div>
-		<a href="roomoptions.html" class="btn btn-primary pull-right">Continue</a>
+		<a href="roomsizes.html" class="btn btn-primary pull-right">Continue</a>
+
 	</div>
 
 	<script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	</body>
 	
 </html>
