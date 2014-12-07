@@ -18,8 +18,8 @@
 	
 	<%
 	//allow access only if session exists
-	String customer_type = null;
-	if(session.getAttribute("customer_type") == null) {
+	String customer_type = (String) session.getAttribute("customer_type");
+	if(customer_type == null) {
 	    response.sendRedirect("index.jsp");
 	}
 	%>
@@ -133,7 +133,7 @@
 			<input id="branch_id" type="hidden" name="branch_id">
 			<input id="branch_id_submit" type="submit" class="btn btn-primary pull-right" name="branch_id_submit" value="Continue">
 		</form>
-
+<%out.println(customer_type); %>
 	
 
 

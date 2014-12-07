@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,9 +42,6 @@ public class BranchServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("branch", branch);
 			session.setMaxInactiveInterval(30*60);
-			Cookie branch_cookie = new Cookie("branch", branch);
-            branch_cookie.setMaxAge(30*60);
-            response.addCookie(branch_cookie);
             response.sendRedirect("roomdates.html");
         }
 	}

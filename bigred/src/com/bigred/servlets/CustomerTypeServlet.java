@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Cookie;
-
 
 /**
  * Servlet implementation class CustomerTypeServlet
@@ -44,9 +42,6 @@ public class CustomerTypeServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("customer_type", customer_type);
 			session.setMaxInactiveInterval(30*60);
-			Cookie customer_type_cookie = new Cookie("customer_type", customer_type);
-            customer_type_cookie.setMaxAge(30*60);
-            response.addCookie(customer_type_cookie);
             response.sendRedirect("location.jsp");
         }
 	}
