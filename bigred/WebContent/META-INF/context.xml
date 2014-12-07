@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/sql260399" auth="Container"
+        type="javax.sql.DataSource" username="sql260399" password="dL6%lL2*"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://sql2.freemysqlhosting.net/sql260399" />
+</Context>
