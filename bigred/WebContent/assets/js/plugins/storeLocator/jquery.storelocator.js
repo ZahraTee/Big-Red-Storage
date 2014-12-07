@@ -360,6 +360,7 @@
 			// ASP.net or regular submission?
 			if (this.settings.noForm === true) {
 				$(document).on('click.'+pluginName, '.' + this.settings.formContainer + ' button', function (e) {
+					$( "#branch_id" ).removeAttr("value");
 					_this.processForm(e);
 				});
 				$(document).on('keyup.'+pluginName, function (e) {
@@ -370,6 +371,7 @@
 			}
 			else {
 				$(document).on('submit.'+pluginName, '#' + this.settings.formID, function (e) {
+					$( "#branch_id" ).removeAttr("value");
 					_this.processForm(e);
 				});
 			}
@@ -909,6 +911,8 @@
 					var markerId = marker.get('id');
 					var $selectedLocation = $('.' + _this.settings.locationList + ' li[data-markerid=' + markerId + ']');
 					$selectedLocation.addClass('list-focus');
+					var dbId = $selectedLocation.data('dbid');
+					$( "#branch_id" ).val(dbId);
 
 					// Scroll list to selected marker
 					var $container = $('.' + _this.settings.locationList);
@@ -1790,6 +1794,8 @@
 				// Handle clicks from the list
 				$(document).on('click.'+pluginName, '.' + _this.settings.locationList + ' li', function () {
 					var markerId = $(this).data('markerid');
+					var dbId = $(this).data('dbid');
+					$( "#branch_id" ).val(dbId);
 					var selectedMarker = markers[markerId];
 
 					// Focus on the list

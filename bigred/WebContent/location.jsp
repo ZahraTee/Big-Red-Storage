@@ -129,9 +129,9 @@
 
 	
 					
-		<form action="branch_submit" method="post">
-			<input type="hidden" name="branch_id">
-			<input type="submit" class="btn btn-primary pull-right" name="branch_id_submit" value="Continue">
+		<form id="branch" action="branch_submit" method="post">
+			<input id="branch_id" type="hidden" name="branch_id">
+			<input id="branch_id_submit" type="submit" class="btn btn-primary pull-right" name="branch_id_submit" value="Continue">
 		</form>
 
 	
@@ -146,11 +146,22 @@
 		<script>
 			$(function() {
 				$('#map-container').storeLocator({
-					'defaultLoc': true,
-					'defaultLat': '51',
-					'defaultLng' : '0'
+					'mapSettings' : {
+						zoom: 10
+						}
+				});
+				$('#branch').submit(function () {
+
+					var attr_value = $("#branch_id").attr('value');
+					//alert(attr_value);
+					if (typeof attr_value === typeof undefined || attr_value === false) {
+						alert("Please select a branch!");
+						return false;
+					}
 				});
 			});
+			
+			
 		</script>
 	</body>
 	

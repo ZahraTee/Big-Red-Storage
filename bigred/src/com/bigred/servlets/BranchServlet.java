@@ -1,26 +1,26 @@
 package com.bigred.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Cookie;
-
 
 /**
- * Servlet implementation class CustomerTypeServlet
+ * Servlet implementation class LocationServlet
  */
-@WebServlet("/customer_type_submit")
-public class CustomerTypeServlet extends HttpServlet {
+@WebServlet("/branch_submit")
+public class BranchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CustomerTypeServlet() {
+    public BranchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,18 +36,17 @@ public class CustomerTypeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String customer_type_submit = request.getParameter("customer_type_id_submit");
-        String customer_type = request.getParameter("customer_type_id");
+		String branch_submit = request.getParameter("branch_id_submit");
+        String branch = request.getParameter("branch_id");
         
-        if (customer_type_submit != null){
+        if (branch_submit != null){
 			HttpSession session = request.getSession();
-			session.setAttribute("customer_type", customer_type);
+			session.setAttribute("branch", branch);
 			session.setMaxInactiveInterval(30*60);
-			Cookie customer_type_cookie = new Cookie("customer_type", customer_type);
-            customer_type_cookie.setMaxAge(30*60);
-            response.addCookie(customer_type_cookie);
-            response.sendRedirect("location.jsp");
+			Cookie branch_cookie = new Cookie("branch", branch);
+            branch_cookie.setMaxAge(30*60);
+            response.addCookie(branch_cookie);
+            response.sendRedirect("roomdates.html");
         }
 	}
 
