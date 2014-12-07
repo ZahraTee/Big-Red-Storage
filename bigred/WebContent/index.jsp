@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-<%@page import="com.bigred.objects.Customer_types"%>
-<%@page import="com.bigred.objects.Customer_type"%>
+<%@page import="com.bigred.objects.CustomerTypes"%>
+<%@page import="com.bigred.objects.CustomerType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <html>
@@ -40,18 +40,17 @@
 			
 		
 			<%
-			
-        	Customer_types types = new Customer_types();
-        	List<Customer_type> list = new ArrayList<Customer_type>();
-        	list = types.getCustomerList();
-        	
-        	for(Customer_type type : list) {
-        		int id = type.getId();
-        		String name = type.getName();;
-        		int discount = type.getDiscount();
-        		String image = type.getImage();
-        		String description = type.getDescription();
-        	%>
+			CustomerTypes types = new CustomerTypes();
+	       	List<CustomerType> list = new ArrayList<CustomerType>();
+	       	list = types.getCustomerList();
+	       	
+	       	for(CustomerType type : list) {
+	       		int id = type.getId();
+	       		String name = type.getName();;
+	       		int discount = type.getDiscount();
+	       		String image = type.getImage();
+	       		String description = type.getDescription();
+			%>
         	<form action="customer_type_submit" method="post">
 	       		<div class="col-md-4">
 	       		
@@ -77,40 +76,6 @@
         
 			
 			<jsp:include page="test.jsp" />
-<!-- 		<div class="col-md-4">
-				<div class="panel panel-default storagetype">
-			        <div class="panel-heading">
-			            <h3 class="panel-title">Business</h3>
-			        </div>
-			        <div class="panel-body">
-			        	<img src="images/business-storage.jpg" alt="Business Storage"/>
-				        <ul class="list-unstyled">
-							<li>Descriptive point</li>
-							<li>Descriptive point</li>
-							<li>Descriptive point</li>
-						</ul>
-						<a href="location.html" class="continue btn btn-primary">Continue</a>
-			        </div>
-			    </div>
-			</div>
 
-			<div class="col-md-4">
-				<div class="panel panel-default storagetype">
-			        <div class="panel-heading">
-			            <h3 class="panel-title">Student</h3>
-			        </div>
-			        <div class="panel-body">
-			        	<img src="images/student-storage.jpg" alt="Student Storage"/>
-				        <ul class="list-unstyled">
-							<li>Descriptive point</li>
-							<li>Descriptive point</li>
-							<li>Descriptive point</li>
-						</ul>
-						<a href="location.html" class="continue btn btn-primary">Continue</a>
-			        </div>
-			    </div>
-			</div>
-
--->
 	</body>
 </html>
