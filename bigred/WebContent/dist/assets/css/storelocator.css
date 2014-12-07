@@ -100,7 +100,7 @@
   float: left;
   margin-top: 27px;
   height: 530px;
-  width: 875px;
+  width:100%;
 }
 .bh-sl-container .bh-sl-map-container a {
   color: #e76737;
@@ -112,7 +112,6 @@
 }
 .bh-sl-container .bh-sl-loc-list {
   float: left;
-  width: 30%;
   height: 530px;
   overflow-x: auto;
 }
@@ -135,21 +134,11 @@
   border: 1px solid #ffffff;
   /* Adding this to prevent moving li elements when adding the list-focus class*/
 }
-.bh-sl-container .bh-sl-loc-list .list-label {
-  float: left;
-  margin: 10px 0 0 6px;
-  padding: 2px 3px;
-  width: 10%;
-  max-width: 25px;
-  text-align: center;
-  background: #451400;
-  color: #ffffff;
-  font-weight: bold;
-}
+
 .bh-sl-container .bh-sl-loc-list .list-details {
   float: left;
   margin-left: 6px;
-  width: 80%;
+  width: 1000%;
 }
 .bh-sl-container .bh-sl-loc-list .list-details .list-content {
   padding: 10px;
@@ -186,7 +175,6 @@
 }
 .bh-sl-container .bh-sl-map {
   float: left;
-  width: 70%;
   height: 530px;
 }
 .bh-sl-container .bh-sl-pagination-container {
@@ -198,7 +186,7 @@
   margin: 0;
   padding: 10px 0;
 }
-.bh-sl-container .bh-sl-pagination-container ol li {
+.bh-sl-container .bh-sl-pagination-container ol   {
   display: inline-block;
   padding: 10px;
   cursor: pointer;
