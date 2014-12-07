@@ -93,7 +93,7 @@ public class IntervalServlet extends HttpServlet {
 			PrintWriter out= response.getWriter();
 			out.println(end_type + " - " + df.format(start_date) + " - " + df.format(end_date));
 			out.println(days_type);
-            //response.sendRedirect("location.jsp");
+            response.sendRedirect("roomsizes.html");
         }
 		else {
 			response.sendRedirect("index.jsp");
