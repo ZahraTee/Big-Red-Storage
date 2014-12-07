@@ -115,130 +115,19 @@
 								<div class="bh-sl-loc-list">
 									<ul class="list list-unstyled"></ul>
 								</div>
-								<a href="roomdates.html" class="btn continue btn-primary pull-right">Continue</a>
+										<form id="branch" action="branch_submit" method="post">
+											<input id="branch_id" type="hidden" name="branch_id">
+											<input id="branch_id_submit" type="submit" class="btn btn-primary pull-right" name="branch_id_submit" value="Continue">
+										</form>
 							</div>
 						</div>
 
 	      		</div>
 				
 	        </div>
-				<!--<div class="input-group">
-	                <input type="text" class="form-control" placeholder="Postcode">
-	                <span class="input-group-btn">
-	                    <button type="button" class="btn btn-default">Go</button>
-	                </span>
-
-	        	</div>
-	        </div>-->
 		</div>
 
-		<!--<div class="col-md-1 visible-lg-block"></div>
 
-
-		<div class="col-md-5 col-sm-6">
-					
-
-		    <div class="panel-group" id="accordion">
-		        <div class="panel panel-default">
-		            <div class="panel-heading">
-		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Location 1 </a>
-		                    <span class = "pull-right"> <input type="radio" name="optradio"></span>
-		                </h4>
-		            </div>
-		            <div id="collapseOne" class="panel-collapse collapse in">
-		                <div class="panel-body">
-		                    <div class = "branchaddress">
-		                    	<h4>Branch Address</h4>
-								<li class = "list-unstyled">
-								<ul>Address 1</ul>
-								<ul>Address 2</ul>
-								<ul>City</ul>
-								<ul>Postcode</ul>
-							</li>
-							</div>
-							<div class = "openinghours">
-								<h4>Opening Hours</h4>
-								<li class = "list-unstyled">
-									<ul>Monday: 09:00 - 21:00</ul>
-									<ul>Tuesday: 09:00 - 21:00</ul>
-									<ul>Wednesday: 09:00 - 21:00</ul>
-									<ul>Thursday: 09:00 - 21:00</ul>
-									<ul>Friday: 09:00 - 21:00</ul>
-									<ul>Saturday: 09:00 - 21:00</ul>
-									<ul>Sunday: 09:00 - 21:00</ul>
-								</li>
-							</div>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="panel panel-default">
-		            <div class="panel-heading">
-		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Location 2 </a>
-							<span class = "pull-right"> <input type="radio" name="optradio"></span>
-		                </h4>
-		            </div>
-		            <div id="collapseTwo" class="panel-collapse collapse">
-		                <div class="panel-body">
-		                    <div class = "branchaddress">
-		                    	<h4>Branch Address</h4>
-								<li class = "list-unstyled">
-								<ul>Address 1</ul>
-								<ul>Address 2</ul>
-								<ul>City</ul>
-								<ul>Postcode</ul>
-							</li>
-							</div>
-							<div class = "openinghours">
-								<h4>Opening Hours</h4>
-								<li class = "list-unstyled">
-									<ul>Monday: 09:00 - 21:00</ul>
-									<ul>Tuesday: 09:00 - 21:00</ul>
-									<ul>Wednesday: 09:00 - 21:00</ul>
-									<ul>Thursday: 09:00 - 21:00</ul>
-									<ul>Friday: 09:00 - 21:00</ul>
-									<ul>Saturday: 09:00 - 21:00</ul>
-									<ul>Sunday: 09:00 - 21:00</ul>
-								</li>
-							</div>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="panel panel-default">
-		            <div class="panel-heading">
-		                <h4 class="panel-title">
-		                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> Location 3 </a>
-		                    <span class = "pull-right"> <input type="radio" name="optradio"></span>
-		                </h4>
-		            </div>
-		            <div id="collapseThree" class="panel-collapse collapse">
-		                <div class="panel-body">
-		                   <div class = "branchaddress">
-		                   	<h4>Branch Address</h4>
-								<li class = "list-unstyled">
-								<ul>Address 1</ul>
-								<ul>Address 2</ul>
-								<ul>City</ul>
-								<ul>Postcode</ul>
-							</li>
-							</div>
-							<div class = "openinghours">
-								<h4>Opening Hours</h4>
-								<li class = "list-unstyled">
-									<ul>Monday: 09:00 - 21:00</ul>
-									<ul>Tuesday: 09:00 - 21:00</ul>
-									<ul>Wednesday: 09:00 - 21:00</ul>
-									<ul>Thursday: 09:00 - 21:00</ul>
-									<ul>Friday: 09:00 - 21:00</ul>
-									<ul>Saturday: 09:00 - 21:00</ul>
-									<ul>Sunday: 09:00 - 21:00</ul>
-								</li>
-							</div>
-		                </div>
-		            </div>
-		        </div>
-			</div>-->
 		
 
 	</div>
@@ -253,8 +142,20 @@
 			$(function() {
 				$('#map-container').storeLocator({
 					'defaultLoc': true,
-					'defaultLat': '51',
-					'defaultLng' : '0'
+					'defaultLat': '51.500152',
+					'defaultLng' : '-0.126236',
+					'mapSettings' : {
+						zoom: 10
+					}
+				});
+				$('#branch').submit(function () {
+
+					var attr_value = $("#branch_id").attr('value');
+					//alert(attr_value);
+					if (typeof attr_value === typeof undefined || attr_value === false) {
+						alert("Please select a branch!");
+						return false;
+					}
 				});
 			});
 		</script>

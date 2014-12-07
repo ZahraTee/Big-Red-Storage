@@ -42,7 +42,7 @@ public class CustomerTypeServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("customer_type", customer_type);
 			session.setMaxInactiveInterval(30*60);
-            response.sendRedirect("location.jsp");
+            response.sendRedirect("location.html");
         }
 	}
 
