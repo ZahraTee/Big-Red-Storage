@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-
+<%@page import="com.bigred.objects.BookingOption"%>
+<%@page import="com.bigred.objects.BookingOptions"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -15,6 +18,19 @@
 
 	</head>
 	<body>
+
+	<%
+
+	String customer_type = null;
+	String weekly_cost = null;
+	if (session.getAttribute("customer_type") == null || session.getAttribute("weekly_cost") == null) {
+	    response.sendRedirect("index.jsp");
+	}
+	else {
+		customer_type = (String) session.getAttribute("customer_type");
+		weekly_cost = (String) session.getAttribute("weekly_cost");
+	}
+	%>
 
     <nav role="navigation" class="navbar navbar-default">
 
@@ -89,58 +105,86 @@
 			    </div>
 			</div>
 		</div>
-
+		
+		<form action="extra_options_submit" method="get" class="form-horizontal">
 		<div class = "col-md-6 col-sm-6">
-			<form class="form-horizontal">
-
-			    <div class="form-group">
-			        <div class="col-sm-1 col-md-offset-2">
-			          	<div class="checkbox">
-			                <input type="checkbox" id="check1">
-				        </div>
-				    </div>
-			        <label class="col-sm-3 control-label" for="check1">Option 1</label>
-				</div>
-				<div class="form-group">
-			        <div class="col-sm-1 col-md-offset-2">
-			          	<div class="checkbox">
-			                <input type="checkbox" id="check2">
-				        </div>
-				    </div>
-			        <label class="col-sm-3 control-label" for="check2">Option 2</label>
-				</div>
-				<div class="form-group">
-			        <div class="col-sm-1 col-md-offset-2">
-			          	<div class="checkbox">
-			                <input type="checkbox" id="check3">
-				        </div>
-				    </div>
-			        <label class="col-sm-3 control-label" for="check3">Option 3</label>
-				</div>
-				<div class="form-group">
-			        <div class="col-sm-1 col-md-offset-2">
-			          	<div class="checkbox">
-			                <input type="checkbox" id="check4">
-				        </div>
-				    </div>
-			        <label class="col-sm-3 control-label" for="check4">Option 4</label>
-				</div>
-			  	
-			<form>
+		<%
+		BookingOptions options = new BookingOptions();
+       	List<BookingOption> list = new ArrayList<BookingOption>();
+        int customer_type_id = Integer.parseInt(customer_type);
+       	list = options.getBookingOptions(customer_type_id);
+       	for(BookingOption option : list) {
+       		int id = option.getId();
+       		String name = option.getName();
+       		String description = option.getDescription();
+       		int price = option.getPrice();
+       		String price_type = option.getPriceType();
+       	%>
+		    <div class="form-group">
+		        <div class="col-sm-1 col-md-offset-2">
+		          	<div class="checkbox">
+		                <input data-price="<%out.print(price);%>" data-pricetype="<%out.print(price_type);%>" type="checkbox" value="<%out.print(id);%>">
+			        </div>
+			    </div>
+		        <label style="text-align:left" class="col-sm-3 control-label" for="check1"><%out.print(name);%></label>
+			</div>
+		<%
+       	}
+		%>			  	
+			
 		</div>
 
 
 		<div class = "col-md-4 col-md-offset-1 col-sm-5">
 			<div class ="quote redbox">
-				<h5>Cost: Â£100.00</h5>
+				<span>£</span>
+				<span id="weekly_cost"><%out.print(weekly_cost);%></span>
+				<span> - weekly cost</span>
 			</div>
-			
-		<a href="review.html" class="btn btn-primary pull-right">Continue</a>
+			<div class ="quote redbox">
+				<span>£</span>
+				<span id="extra_cost">0</span>
+				<span> - extra costs (only payed once)</span>
+			</div>
+			<input id="extraoptions_submit" type="submit" class="btn btn-primary pull-right" name="extraoptions_submitt" value="Continue">
 		</div>
-
-		<script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
+		</form>
 	</body>
+	
+	<script>
+		$(document).ready(function() {
+		
+			$(".checkbox :checkbox").change(function() {
+			    var price_type = $(this).data("pricetype");
+			    var price = $(this).data("price");
+			    var weekly_cost = parseInt($("#weekly_cost").text());
+			    var extra_cost = parseInt($("#extra_cost").text());
+
+				if(this.checked) {
+					if (price_type == "weekly") {
+						$("#weekly_cost").text(price+weekly_cost);
+					}
+					else {
+						if (price_type == "once") {
+							$("#extra_cost").text(price+extra_cost);
+						}
+					}
+			    }
+				else {
+					if (price_type == "weekly") {
+						$("#weekly_cost").text(weekly_cost - price);
+					}
+					else {
+						if (price_type == "once") {
+							$("#extra_cost").text(extra_cost - price);
+						}
+					}
+				}
+		    });
+		});
+	</script>
+	
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 	
 </html>

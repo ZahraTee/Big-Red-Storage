@@ -114,7 +114,7 @@
 		        <div class="form-group">
 		            <label for="roomSize" class="control-label col-xs-4">Room Size</label>
 		            <div id="div_days_type" class="col-xs-5">
-						<select id="room_size" name="room_size" class="form-control">
+						<select id="room_type" name="room_type" class="form-control">
 							<%
 							RoomTypes types = new RoomTypes();
 					       	List<RoomType> list = new ArrayList<RoomType>();
@@ -144,6 +144,7 @@
 				<span id="cost"></span>
 				<span>/week</span>
 			</div>
+			<input id="weekly_cost" type="hidden" name="weekly_cost">
 			<input id="room_type_submit" type="submit" class="btn btn-primary pull-right" name="room_type_submit" value="Continue">
 		</div>
 		</form>
@@ -154,15 +155,17 @@
 	</body>
 	<script>
 	$(document).ready(function() {
-		var selected_price = $('#room_size option:first-child').data("prc");
-		var img_src = $('#room_size option:first-child').data("img");
+		var selected_price = $('#room_type option:first-child').data("prc");
+		var img_src = $('#room_type option:first-child').data("img");
 		$("#roomvisualiser").html(img_src ? "<img src='" + img_src + "'>" : "");
 		$("#cost").text("£" + selected_price);
-	    $("#room_size").change(function() {
+		$("#weekly_cost").val(selected_price);
+	    $("#room_type").change(function() {
 	        var img_src = $(this).find(":selected").data("img");
 	        var selected_price = $(this).find(":selected").data("prc");
 	        $("#roomvisualiser").html(img_src ? "<img src='" + img_src + "'>" : "");
 	        $("#cost").text("£" + selected_price);
+	        $("#weekly_cost").val(selected_price);
 	    });
 	});
 	</script>

@@ -36,6 +36,9 @@ public class CustomerTypeServlet extends HttpServlet {
 			session.setMaxInactiveInterval(30*60);
             response.sendRedirect("location.html");
         }
+        else {
+        	response.sendRedirect("index.jsp");
+        }
 	}
 
 	/**
