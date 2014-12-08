@@ -27,14 +27,6 @@ public class CustomerTypeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String customer_type_submit = request.getParameter("customer_type_id_submit");
         String customer_type = request.getParameter("customer_type_id");
         
@@ -44,6 +36,13 @@ public class CustomerTypeServlet extends HttpServlet {
 			session.setMaxInactiveInterval(30*60);
             response.sendRedirect("location.html");
         }
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 	}
 
 }

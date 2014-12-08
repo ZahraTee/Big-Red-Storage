@@ -1,6 +1,6 @@
 package com.bigred.objects;
 
-public class RoomSize {
+public class RoomType {
 	
 	private int id;
 	private String name;
@@ -9,7 +9,7 @@ public class RoomSize {
 	private String description;
 	private String image_url;
 	
-	public RoomSize (int id, String name, int size, int price, String description, String image_url) {
+	public RoomType (int id, String name, int size, int price, String description, String image_url) {
 		this.id = id;
 		this.name = name;
 		this.size = size;

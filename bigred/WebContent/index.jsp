@@ -51,7 +51,7 @@
 	       		String image = type.getImage();
 	       		String description = type.getDescription();
 			%>
-        	<form action="customer_type_submit" method="post">
+        	<form action="customer_type_submit" method="get">
 	       		<div class="col-md-4">
 	       		
 					<div class="panel panel-default storagetype">

@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 
+<%@page import="com.bigred.objects.RoomTypes"%>
+<%@page import="com.bigred.objects.RoomType"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -15,6 +20,18 @@
 
 	</head>
 	<body>
+
+	<%
+
+	String branch = null;
+	if (session.getAttribute("branch") == null) {
+	    response.sendRedirect("index.jsp");
+	}
+	else {
+		branch = (String) session.getAttribute("branch");
+	}
+	%>
+
 
     <nav role="navigation" class="navbar navbar-default">
 
@@ -92,42 +109,63 @@
 			</div>
 
 		<div class = "col-md-6 col-sm-7">
-		    <form class="form-horizontal">
+		    <form action="room_type_submit" method="get" class="form-horizontal">
 
 		        <div class="form-group">
 		            <label for="roomSize" class="control-label col-xs-4">Room Size</label>
-		            <div class="col-xs-8">
-		                <div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" id="roomSize" data-toggle="dropdown" aria-expanded="true">
-						    Select a room size
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Room Size 1</a></li>
-						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Room Size 2</a></li>
-						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Room Size 3</a></li>
-						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Room Size 4</a></li>
-						  </ul>
-						</div>
-		            </div>
+		            <div id="div_days_type" class="col-xs-5">
+						<select id="room_size" name="room_size" class="form-control">
+							<%
+							RoomTypes types = new RoomTypes();
+					       	List<RoomType> list = new ArrayList<RoomType>();
+		            		int branch_id = Integer.parseInt(branch);
+					       	list = types.getAvailableBranchRoomTypes(branch_id, "", "");
+					       	for(RoomType type : list) {
+					       		int id = type.getId();
+					       		int size = type.getSize();
+					       		int price = type.getPrice();
+					       		String image = type.getImageUrl();
+					       	%>
+								<option value="<%out.print(id);%>" data-prc="<%out.print(price);%>" data-img="images/room-types/<%out.print(image);%>"><%out.print(size);%> sq ft</option>
+							<%
+					       	}
+							%>
+						</select> 
+				    </div>
 		        </div>
-		    </form>
+		    
 	</div>
 
-		<div class = "col-md-4 col-md-offset-1 col-sm-5">
-			<div class ="redbox"><img src="roomvisualiser"/></div>
+		<div class = "col-md-5 col-sm-5">
+			<div id="roomvisualiser" class ="redbox"></div>
 
-			<!--<div class ="redbox quote">
-				<h5>Cost: Â£100.00</h5>
-			</div>-->
-			
-		<a href="extraoptions.html" class="btn btn-primary pull-right">Continue</a>
+			<div class ="redbox quote">
+				<span>Cost: </span>
+				<span id="cost"></span>
+				<span>/week</span>
+			</div>
+			<input id="room_type_submit" type="submit" class="btn btn-primary pull-right" name="room_type_submit" value="Continue">
 		</div>
+		</form>
 
 
 	
 
 	</body>
+	<script>
+	$(document).ready(function() {
+		var selected_price = $('#room_size option:first-child').data("prc");
+		var img_src = $('#room_size option:first-child').data("img");
+		$("#roomvisualiser").html(img_src ? "<img src='" + img_src + "'>" : "");
+		$("#cost").text("£" + selected_price);
+	    $("#room_size").change(function() {
+	        var img_src = $(this).find(":selected").data("img");
+	        var selected_price = $(this).find(":selected").data("prc");
+	        $("#roomvisualiser").html(img_src ? "<img src='" + img_src + "'>" : "");
+	        $("#cost").text("£" + selected_price);
+	    });
+	});
+	</script>
 
 	<script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
