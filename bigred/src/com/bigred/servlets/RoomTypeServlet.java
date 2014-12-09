@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.bigred.objects.SessionState;
+
 /**
  * Servlet implementation class RoomTypeServlet
  */
@@ -30,13 +32,10 @@ public class RoomTypeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String room_type_submit = request.getParameter("room_type_submit");
         String room_type = request.getParameter("room_type");
-        String weekly_cost = request.getParameter("weekly_cost");
         
         if (room_type_submit != null){
-			HttpSession session = request.getSession();
-			session.setAttribute("room_type", room_type);
-			session.setAttribute("weekly_cost", weekly_cost);
-			session.setMaxInactiveInterval(30*60);
+        	SessionState state = (SessionState)request.getSession().getAttribute("State");
+        	state.getBooking().setRoomType(Integer.parseInt(room_type));
             response.sendRedirect("extraoptions.jsp");
         }
         else {

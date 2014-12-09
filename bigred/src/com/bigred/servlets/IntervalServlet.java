@@ -1,5 +1,5 @@
 package com.bigred.servlets;
-
+import com.bigred.objects.BookingOption;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -84,9 +84,10 @@ public class IntervalServlet extends HttpServlet {
 	            	e.printStackTrace();
 	            }
 	        }
-
+	        
 	        SessionState state = (SessionState)request.getSession().getAttribute("State");
 			state.getBooking().setDate(start_date,end_date);
+			
             response.sendRedirect("roomsizes.jsp");
         }
 		else {

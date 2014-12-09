@@ -1,5 +1,5 @@
 package com.bigred.servlets;
-import java.io.PrintWriter;
+
 
 import com.bigred.objects.SessionState;
 import com.bigred.objects.Booking;
@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 
 /**
  * Servlet implementation class CustomerTypeServlet

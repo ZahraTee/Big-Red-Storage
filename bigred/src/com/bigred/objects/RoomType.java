@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -15,56 +13,13 @@ public class RoomType {
 	
 	private int id;
 	private String name;
-	private int size;
-	private int price;
+	private double size;
+	private double price;
 	private String description;
 	private String image_url;
 	
-	public static List<RoomType> getAvailableBranchRoomTypes(int branch_id, String startDate, String endDate) {
-		 DataSource dataSource=null;
-		 Connection connection=null;
-		 Statement statement=null;
-			List<RoomType> room_types_list = new ArrayList<RoomType>();
-			
-			ResultSet resultSet = null;
-	        try {
-	        	Context initContext  = new InitialContext();
-				Context envContext  = (Context)initContext.lookup("java:/comp/env");
-				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
-	            // Get Connection and Statement
-	            connection = dataSource.getConnection();
-	            statement = connection.createStatement();
-	            String query = "SELECT DISTINCT r.room_type_id, rt.size_feet, rt.price_per_week, rt.image_url "
-	            		+ "FROM Rooms r "
-	            		+ "LEFT JOIN Room_types rt "
-	            		+ "ON r.room_type_id = rt.room_type_id "
-	            		+ "WHERE r.branch_id = " + branch_id;
-	            resultSet = statement.executeQuery(query);
-	            
-	            while (resultSet.next()) {
-	                int id = resultSet.getInt("room_type_id");
-	                int size = resultSet.getInt("size_feet");
-	                int price = resultSet.getInt("price_per_week");
-	                String image = resultSet.getString("image_url");
-	                RoomType room_type = new RoomType(id, "", size, price, "", image);
-	                room_types_list.add(room_type);
-	            }
-	            
-	            
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }finally {
-	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
-	            {e.printStackTrace();}
-	            try { if(null!=statement)statement.close();} catch (SQLException e) 
-	            {e.printStackTrace();}
-	            try { if(null!=connection)connection.close();} catch (SQLException e) 
-	            {e.printStackTrace();}
-	        }
-	        
-	        return room_types_list;
-			
-		}
+	
+
 	public static RoomType getRoomType(int index)
 	{
 		DataSource dataSource=null;
@@ -87,8 +42,8 @@ public class RoomType {
 	            
 	            while (resultSet.next()) {
 	                int id = resultSet.getInt("room_type_id");
-	                int size = resultSet.getInt("size_feet");
-	                int price = resultSet.getInt("price_per_week");
+	                double size = resultSet.getDouble("size_feet");
+	                double price = resultSet.getDouble("price_per_week");
 	                String image = resultSet.getString("image_url");
 	                String name = resultSet.getString("name");
 	                String description = resultSet.getString("description");
@@ -109,7 +64,7 @@ public class RoomType {
 	        
 	        return value;
 	}
-	public RoomType (int id, String name, int size, int price, String description, String image_url) {
+	public RoomType (int id, String name, double size, double price, String description, String image_url) {
 		this.id = id;
 		this.name = name;
 		this.size = size;
@@ -124,10 +79,10 @@ public class RoomType {
 	public String getName (){
 		return name;
 	}
-	public int getSize (){
+	public double getSize (){
 		return size;
 	}
-	public int getPrice (){
+	public double getPrice (){
 		return price;
 	}
 	public String getDescription (){

@@ -24,8 +24,11 @@
 
 <div class="container">
 
-
-
+<%
+if (customer_logged_in) {
+		response.sendRedirect("location.jsp");
+    }
+%>
 
     <div class="jumbotron">
 

@@ -64,9 +64,9 @@ public class CustomerType {
 	public static CustomerType getCustomerType(int index)
 	{
 		DataSource dataSource=null;
-		 Connection connection=null;
-		 Statement statement=null;
-			CustomerType value=null;
+		Connection connection=null;
+		Statement statement=null;
+		CustomerType value=null;
 			
 			ResultSet resultSet = null;
 	        try {

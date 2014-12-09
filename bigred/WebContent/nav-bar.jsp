@@ -9,7 +9,7 @@
     	customer_logged_in = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().isLoggedIn();
     }
     if (customer_logged_in) {
-		String customer_account = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getWelcomeStatement();
+		String customer_name = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getName();
     }
 	%>
     

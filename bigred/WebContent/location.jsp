@@ -17,13 +17,17 @@
 	</head>
 	<body>
 	
-    <jsp:include page="nav-bar.jsp" />
+    <%@ include file="/nav-bar.jsp" %>
 
 <div class="container">
 
 	<div class = "page-header">
 		<div class = "page-heading">
+			<%
+			if (!customer_logged_in) {
+			%>
 			<a href="index.jsp" class="btn btn-default">Back</a>
+			<%}%>
 			<h2>Select a Location</h2>
 		</div>
 
