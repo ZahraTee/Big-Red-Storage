@@ -71,6 +71,54 @@ public class BookingOption {
         
         return booking_options_list; 
 	}
+	public static List<BookingOption> getBookingOptionsById (String option_ids) {
+		DataSource dataSource=null;
+	    Connection connection=null;
+	    Statement statement=null;
+
+		ResultSet resultSet = null;
+		
+		List<BookingOption> booking_options_list = new ArrayList<BookingOption>();
+		
+        try {
+        	Context initContext  = new InitialContext();
+            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+            dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+            // Get Connection and Statement
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            
+            String query = "SELECT * FROM Booking_opyions WHERE booking_option_id IN " + option_ids;
+            resultSet = statement.executeQuery(query);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("booking_option_id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                int price = resultSet.getInt("price");
+                String price_type = resultSet.getString("price_type");
+                
+                BookingOption booking_option = new BookingOption (id, name, description, price, price_type);
+                booking_options_list.add(booking_option);
+            }
+            
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+        
+        return booking_options_list; 
+	}
+	
 	private BookingOption (int id, String name, String description, int price, String price_type) {
 		this.id = id;
 		this.name = name;

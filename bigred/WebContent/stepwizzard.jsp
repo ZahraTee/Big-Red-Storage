@@ -3,7 +3,7 @@
 		    <%
 			int last_page = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getLastPage();
 			String[] step_names = {"Select location", "Select Dates", "Select Room Sizes", "Add Extras", "Review Booking", "Payment"};
-			String[] step_links = {"location.jsp", "roomdates.jsp", "roomsizes.jsp", "extraoptions.jsp", "review.html", "payment.html"};
+			String[] step_links = {"location.jsp", "roomdates.jsp", "roomsizes.jsp", "extraoptions.jsp", "review.jsp", "payment.html"};
 			int steps_number = step_names.length;
 			for (int i=0; i< steps_number; i++) {
 				%>

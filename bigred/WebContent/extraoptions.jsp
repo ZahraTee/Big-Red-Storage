@@ -46,7 +46,7 @@
 		    <div class="form-group">
 		        <div class="col-sm-1 col-md-offset-2">
 		          	<div class="checkbox">
-		                <input data-price="<%out.print(price);%>" data-pricetype="<%out.print(price_type);%>" type="checkbox" value="<%out.print(id);%>">
+		                <input data-price="<%out.print(price);%>" data-pricetype="<%out.print(price_type);%>" type="checkbox" name="checkedOptions" value="<%out.print(id);%>">
 			        </div>
 			    </div>
 		        <label style="text-align:left" class="col-sm-3 control-label" for="check1"><%out.print(name);%></label>
@@ -69,7 +69,7 @@
 				<span id="extra_cost">0</span>
 				<span> - extra costs (only payed once)</span>
 			</div>
-			<input id="extraoptions_submit" type="submit" class="btn btn-primary pull-right" name="extraoptions_submitt" value="Continue">
+			<input id="extra_options_submit" type="submit" class="btn btn-primary pull-right" name="extra_options_submit" value="Continue">
 		</div>
 		</form>
 	</body>
@@ -78,18 +78,18 @@
 		$(document).ready(function() {
 		
 			$(".checkbox :checkbox").change(function() {
-			    var price_type = $(this).data("pricetype");
-			    var price = ($(this).data("price"));
+			    var price_type = ($(this).data("pricetype"));
+			    var price = parseFloat($(this).data("price"));
 			    var weekly_cost = parseFloat($("#weekly_cost").text());
 			    var extra_cost = parseFloat($("#extra_cost").text());
 
 				if(this.checked) {
 					if (price_type == "weekly") {
-						$("#weekly_cost").text(price+weekly_cost);
+						$("#weekly_cost").text(price + weekly_cost);
 					}
 					else {
 						if (price_type == "once") {
-							$("#extra_cost").text(price+extra_cost);
+							$("#extra_cost").text(price + extra_cost);
 						}
 					}
 			    }

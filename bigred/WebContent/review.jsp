@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@page import="java.util.Date"%>
+
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -14,42 +16,7 @@
 	</head>
 	<body>
 
-	    <nav role="navigation" class="navbar navbar-default">
-
-	        <!-- Brand and toggle get grouped for better mobile display -->
-
-	        <div class="navbar-header">
-	            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-	                <span class="sr-only">Toggle navigation</span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	            </button>
-	            <a href="#" class="navbar-brand">Big Red Storage Company</a>
-	        </div>
-
-	        <!-- Collection of nav links, forms, and other content for toggling -->
-
-	        <div id="navbarCollapse" class="collapse navbar-collapse">
-
-	            <ul class="nav navbar-nav">
-	                <li class="active"><a href="index.html">Home</a></li>
-	                <li><a href="#"></a></li>
-	            </ul>
-
-	            <form class="navbar-form navbar-right" role="search">
-	                <div class="form-group">
-	                        <input type="text" class="form-control" name="username" placeholder="Username">
-	                    </div>
-	                    <div class="form-group">
-	                        <input type="text" class="form-control" name="password" placeholder="Password">
-	                    </div>
-	                    <button type="submit" class="btn btn-default">Sign In</button>
-	            </form>
-
-	        </div>
-
-	    </nav>
+	    <%@ include file="/nav-bar.jsp" %>
 
 
 
@@ -62,34 +29,7 @@
 					<h2>Review Quote</h2>
 				</div>
 				
-				<div class="stepwizard">
-				    <div class="stepwizard-row">
-				        <div class="stepwizard-step">
-				            <a href="location.html" class="btn btn-default btn-circle">1</a>
-				            <p>Select Location</p>
-				        </div>
-				        <div class="stepwizard-step">
-				            <a href="roomdates.html" class="btn btn-default btn-circle">2</a>
-				            <p>Select Dates</p>
-				        </div>
-				        <div class="stepwizard-step">
-				            <a href="roomsizes.html" class="btn btn-default btn-circle">3</a>
-				            <p>Select Room Sizes</p>
-				        </div>
-				        <div class="stepwizard-step">
-				            <a href="extraoptions.html" class="btn btn-default btn-circle">4</a>
-				            <p>Add Extras</p>
-				        </div>
-				        <div class="stepwizard-step">
-				            <a href="review.html" class="btn btn-primary btn-circle">5</a>
-				            <p>Review Booking</p>
-				        </div>
-				        <div class="stepwizard-step">
-				            <a href="payment.html" class="btn btn-default btn-circle">6</a>
-				            <p>Payment</p>
-				        </div>  
-				    </div>
-				</div>
+				<%@ include file="/stepwizzard.jsp" %>
 
 			</div>
 
@@ -100,13 +40,22 @@
 				        <div class="panel-heading">
 				            <h3 class="panel-title">Selected Options : Review</h3>
 				        </div>
-
+						<%
+						
+						
+						
+						String location = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getBranch().getName();
+						Date startDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getStartDate();
+						Date endDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getEndDate();
+						double roomSize = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getSize();
+					
+						%>
 				        <div class="panel-body">
 				            <li class = "list-unstyled">
-				            	<ul>Location</ul>
-				            	<ul>Start Date</ul>
-				            	<ul>End Date</ul>
-				            	<ul>Room Size</ul>
+				            	<ul>Location: <b><%out.print(location);%></b></ul>
+				            	<ul>Start Date: <b><%out.print(startDate.toString());%></b></ul>
+				            	<ul>End Date: <b><%out.print(endDate.toString());%></b></ul>
+				            	<ul>Room Size: <b><%out.print(roomSize);%> feet</b></ul>
 				            </li>
 				        </div>
 
@@ -127,6 +76,9 @@
 
 			<!-- I was thinking we could replace this entire section with a continue to payment button if they're signed in? -->
 			
+			<%
+			if (!customer_logged_in) {
+			%>
 			<div class="row">
 				<div class="col-md-6">
 			        <div class="panel panel-defaut">
@@ -134,13 +86,13 @@
 				            <h3 class="panel-title">Sign In</h3>
 				        </div>
 				        <div class="panel-body">
-				            <form role="form">
+				            <form action="login" method="post" role="form">
 				                <fieldset>
 				                    <div class="form-group">
-				                        <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
+				                        <input type="text" class="form-control" name="username" placeholder="Username" autofocus="">
 				                    </div>
 				                    <div class="form-group">
-				                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+				                        <input type="password" class="form-control" name="password" placeholder="Password" value="">
 				                    </div>
 				                    <div class="checkbox">
 				                        <label>
@@ -148,7 +100,7 @@
 				                        </label>
 				                    </div>
 				                    <!-- Change this to a button or input when using this as a form -->
-				                    <a href="payment.html" class="btn btn-primary pull-right">Login</a>
+				                    <input type="submit" class="btn btn-primary pull-right" name="sign_in" value="Sign in">
 				                </fieldset>
 				            </form>
 				        </div>
@@ -177,6 +129,17 @@
 			        </div>
 			    </div>
 			</div>
+			<%
+			}
+			else {
+			%>
+			
+			<a href="payment" class="btn btn-primary pull-right">Proceed to Checkout</a>
+			
+			<%
+			}
+			%>
+			
 
 		</div>
 
