@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<%@page import="com.bigred.objects.CustomerTypes"%>
 <%@page import="com.bigred.objects.CustomerType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
+
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -19,7 +19,8 @@
 
 	</head>
 	<body>
-	<jsp:include page="nav-bar.html" />
+
+<%@ include file="/nav-bar.jsp" %>
 
 <div class="container">
 
@@ -40,9 +41,7 @@
 			
 		
 			<%
-			CustomerTypes types = new CustomerTypes();
-	       	List<CustomerType> list = new ArrayList<CustomerType>();
-	       	list = types.getCustomerList();
+			List<CustomerType> list = CustomerType.getCustomerList();
 	       	
 	       	for(CustomerType type : list) {
 	       		int id = type.getId();

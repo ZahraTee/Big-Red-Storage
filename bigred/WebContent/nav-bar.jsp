@@ -1,3 +1,18 @@
+    <%
+    com.bigred.objects.SessionState.formalizeSession(request, response);
+    com.bigred.objects.Customer customer = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer();
+    boolean customer_logged_in;
+    if (customer == null) {
+    	customer_logged_in = false;
+    }
+    else {
+    	customer_logged_in = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().isLoggedIn();
+    }
+    if (customer_logged_in) {
+		String customer_account = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getWelcomeStatement();
+    }
+	%>
+    
     <nav role="navigation" class="navbar navbar-default">
 
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -21,7 +36,11 @@
                 <li><a href="index"></a></li>
             </ul>
 
-            <form class="navbar-form navbar-right" role="search" action="query" method="post">
+			<%
+			if (!customer_logged_in) {
+			%>
+
+            <form action="login" method="post" class="navbar-form navbar-right" role="search" action="query">
                 <div class="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
@@ -30,6 +49,13 @@
                     </div>
                     <input type="submit" class="btn btn-default" name="sign_in" value="Sign in">
             </form>
+            
+            <%
+            }
+			else {		
+				out.print("CUSTOMER LOGGED INT ");
+			}
+            %>
 
         </div>
 

@@ -1,5 +1,5 @@
 package com.bigred.servlets;
-import java.io.PrintWriter;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,8 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.bigred.objects.SessionState;
 
 
 /**
@@ -86,13 +85,8 @@ public class IntervalServlet extends HttpServlet {
 	            }
 	        }
 
-			HttpSession session = request.getSession();
-			session.setAttribute("start_date", start_date);
-			session.setAttribute("end_date", end_date);
-			session.setMaxInactiveInterval(30*60);
-			PrintWriter out= response.getWriter();
-			out.println(end_type + " - " + df.format(start_date) + " - " + df.format(end_date));
-			out.println(days_type);
+	        SessionState state = (SessionState)request.getSession().getAttribute("State");
+			state.getBooking().setDate(start_date,end_date);
             response.sendRedirect("roomsizes.jsp");
         }
 		else {

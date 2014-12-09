@@ -1,5 +1,10 @@
 package com.bigred.servlets;
+import java.io.PrintWriter;
 
+import com.bigred.objects.SessionState;
+import com.bigred.objects.Booking;
+import com.bigred.objects.Customer;
+import com.bigred.objects.CustomerType;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,10 +36,10 @@ public class CustomerTypeServlet extends HttpServlet {
         String customer_type = request.getParameter("customer_type_id");
         
         if (customer_type_submit != null){
-			HttpSession session = request.getSession();
-			session.setAttribute("customer_type", customer_type);
-			session.setMaxInactiveInterval(30*60);
-            response.sendRedirect("location.html");
+        	SessionState state = (SessionState)request.getSession().getAttribute("State");
+			state.setBooking(new Booking());
+			state.setCustomer(new Customer(CustomerType.getCustomerType(Integer.parseInt(customer_type))));
+			response.sendRedirect("location.jsp");
         }
         else {
         	response.sendRedirect("index.jsp");

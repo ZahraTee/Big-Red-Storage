@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.html" class="navbar-brand">Big Red Storage Company</a>
+            <a href="index.jsp" class="navbar-brand">Big Red Storage Company</a>
         </div>
 
         <!-- Collection of nav links, forms, and other content for toggling -->
