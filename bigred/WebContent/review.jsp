@@ -115,11 +115,20 @@
 			            <div class="panel-body">
 			                <form role="form">
 			                    <fieldset>
-			                        <div class="form-group">
-			                            <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
+			                    	<div class="form-group">
+			                            <input class="form-control" placeholder="first name" name="first_name" type="text" autofocus="">
+			                        </div>
+			                    	<div class="form-group">
+			                            <input class="form-control" placeholder="surname" name="surname" type="text" autofocus="">
+			                        </div>
+			                    	<div class="form-group">
+			                            <input class="form-control" placeholder="username" name="username" type="text" autofocus="">
 			                        </div>
 			                        <div class="form-group">
-			                            <input class="form-control" placeholder="Password" name="password" type="password" value="">
+			                            <input class="form-control" placeholder="email" name="email" type="email" autofocus="">
+			                        </div>
+			                        <div class="form-group">
+			                            <input class="form-control" placeholder="password" name="password" type="password" value="">
 			                        </div>
 			                        <!-- Change this to a button or input when using this as a form -->
 			                        <a href="payment.html" class="btn btn-primary pull-right">Create Account</a>

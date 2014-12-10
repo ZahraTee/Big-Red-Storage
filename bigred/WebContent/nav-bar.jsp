@@ -2,6 +2,7 @@
     com.bigred.objects.SessionState.formalizeSession(request, response);
     com.bigred.objects.Customer customer = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer();
     boolean customer_logged_in;
+    String customer_name = null;
     if (customer == null) {
     	customer_logged_in = false;
     }
@@ -9,7 +10,7 @@
     	customer_logged_in = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().isLoggedIn();
     }
     if (customer_logged_in) {
-		String customer_name = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getName();
+		customer_name = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getName();
     }
 	%>
     
@@ -45,15 +46,20 @@
                         <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="password" placeholder="Password">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
                     <input type="submit" class="btn btn-default" name="sign_in" value="Sign in">
             </form>
             
             <%
             }
-			else {		
-				out.print("CUSTOMER LOGGED INT ");
+			else {	
+			%>
+				<ul class="nav navbar-nav navbar-right">
+				  <li><a href="profile.jsp"><%out.print(customer_name);%></a></li>
+				  <li><a href="logout">Log Out</a></li>
+				</ul>
+			<%
 			}
             %>
 

@@ -46,6 +46,7 @@ public class ExtraOptionsSubmit extends HttpServlet {
 					if (i!=0) {
 						option_ids += "," + option;
 					}
+				i++;
 				}
 			}
 			
