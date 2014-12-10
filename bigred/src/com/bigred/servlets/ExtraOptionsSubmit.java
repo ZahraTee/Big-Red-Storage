@@ -1,8 +1,6 @@
 package com.bigred.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,13 +38,14 @@ public class ExtraOptionsSubmit extends HttpServlet {
 			
 			String option_ids = "(";
 			
-			int i = 0;
-			if (checked_options != null) {
-				for (String option : checked_options) {
-					if (i!=0) {
-						option_ids += "," + option;
+			if (checked_options != null) 
+			{
+				for(int i=0;i<checked_options.length;i++)
+				{
+					if(i!=0) {
+						option_ids += ",";
 					}
-				i++;
+					option_ids += checked_options[i];
 				}
 			}
 			

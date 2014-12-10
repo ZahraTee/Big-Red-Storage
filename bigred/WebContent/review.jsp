@@ -113,7 +113,7 @@
 			                <h3 class="panel-title">Register</h3>
 			            </div>
 			            <div class="panel-body">
-			                <form role="form">
+			                <form method="post" action="register" role="form">
 			                    <fieldset>
 			                    	<div class="form-group">
 			                            <input class="form-control" placeholder="first name" name="first_name" type="text" autofocus="">
@@ -131,7 +131,7 @@
 			                            <input class="form-control" placeholder="password" name="password" type="password" value="">
 			                        </div>
 			                        <!-- Change this to a button or input when using this as a form -->
-			                        <a href="payment.html" class="btn btn-primary pull-right">Create Account</a>
+			                        <input type="submit" class="btn btn-primary pull-right" name="register" value="Create Account">
 			                    </fieldset>
 			                </form>
 			            </div>

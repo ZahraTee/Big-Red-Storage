@@ -33,11 +33,6 @@ public class BookingOption {
             // Get Connection and Statement
             connection = dataSource.getConnection();
             statement = connection.createStatement();
-            /*String query = "SELECT bo.booking_option_id, bo.name, bo.description, bo.price, pt.name AS price_type "
-            		+ "FROM Booking_options_to_Customer_types botct, Price_types pt "
-            		+ "LEFT JOIN Booking_options bo "
-            		+ "ON botct.booking_option_id = bo.booking_option_id "
-            		+ "WHERE bo.price_type_id = pt.price_type_id AND botct.customer_type_id = " + customer_type;*/
             
             String query = "SELECT bo.booking_option_id, bo.name, bo.description, bo.price, pt.name AS price_type "
             		+ "FROM Booking_options_to_Customer_types botct, Price_types pt, Booking_options bo "
@@ -88,7 +83,7 @@ public class BookingOption {
             connection = dataSource.getConnection();
             statement = connection.createStatement();
             
-            String query = "SELECT * FROM Booking_opyions WHERE booking_option_id IN " + option_ids;
+            String query = "SELECT bo.booking_option_id, bo.name, bo.description, bo.price, pt.name AS price_type FROM Booking_options bo, Price_types pt WHERE bo.price_type_id=pt.price_type_id AND booking_option_id IN " + option_ids;
             resultSet = statement.executeQuery(query);
             
             while (resultSet.next()) {

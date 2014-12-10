@@ -44,9 +44,10 @@ public class Booking {
 	}
 	
 	//TO-DO: find a room
-	public void bookingConfirmed(int customerId)
+	public void bookingConfirmed(Customer customer)
 	{
-		
+		int customerId=customer.getId();
+		int discount = customer.getCustomerType().getDiscount();
 		DataSource dataSource=null;
 		 Connection conn=null;
 		 Statement st=null;
@@ -68,7 +69,7 @@ public class Booking {
            
            //Insert Booking and set Id
            PreparedStatement statement = conn.prepareStatement("INSERT INTO Bookings (customer_id,room_id,date_booked,start_date,end_date,total_price) " + 
-                   "VALUES ("+customerId+", "+roomId+", '"+new java.sql.Date(new Date().getTime())+"', '"+new java.sql.Date(startDate.getTime())+"', '"+new java.sql.Date(endDate.getTime())+"', "+totalCost()+")"
+                   "VALUES ("+customerId+", "+roomId+", '"+new java.sql.Date(new Date().getTime())+"', '"+new java.sql.Date(startDate.getTime())+"', '"+new java.sql.Date(endDate.getTime())+"', "+totalCost(discount)+")"
                    ,Statement.RETURN_GENERATED_KEYS);
            statement.executeUpdate(); 
            ResultSet set = statement.getGeneratedKeys();
@@ -82,6 +83,8 @@ public class Booking {
         	   st.executeUpdate("INSERT INTO Booking_options_to_Bookings (booking_id,booking_option_id) " + 
                        "VALUES ("+this.id+", "+option.getId()+")"); 
            }
+           st.executeUpdate("INSERT INTO Payments (booking_id,amount,date) " + 
+                   "VALUES ("+this.id+", "+totalCost(discount)+", '"+new java.sql.Date(new Date().getTime())+"')"); 
            conn.close(); 
        } catch (Exception e) { 
            System.err.println(e.getMessage()); 
@@ -140,7 +143,10 @@ public class Booking {
 	}
 	public double totalCost()
 	{
-		//TO-DO
-		return 0;
+		return getWeeklyCost()+getExtraCost();
+	}
+	public double totalCost(int discount)
+	{
+		return totalCost()*(1-discount/100.0);
 	}
 }

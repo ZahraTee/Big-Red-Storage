@@ -41,7 +41,7 @@
 			if (!customer_logged_in) {
 			%>
 
-            <form action="login" method="post" class="navbar-form navbar-right" role="search" action="query">
+            <form action="login" method="post" class="navbar-form navbar-right" role="form">
                 <div class="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>

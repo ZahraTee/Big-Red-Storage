@@ -83,7 +83,7 @@ public class Customer {
 	{
 		return account!=null;
 	}
-	public void register(String firstName,String lastName,String email,String username,String password)
+	public void register(String firstName, String lastName, String email, String username, String password)
 	{
 		this.account = new Account(username,password);
 		this.firstName=firstName;

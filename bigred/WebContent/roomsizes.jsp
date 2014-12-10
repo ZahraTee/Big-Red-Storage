@@ -42,14 +42,14 @@
 		            <div id="div_days_type" class="col-xs-5">
 						<select id="room_type" name="room_type" class="form-control">
 							<%
-						
+							int discount = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getDiscount();
 							Date startDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getStartDate();
 							Date endDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getEndDate();
 							List<RoomType> list = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getBranch().getAvailableTypes(startDate, endDate);
 					       	for(RoomType type : list) {
 					       		int id = type.getId();
 					       		double size = type.getSize();
-					       		double price = type.getPrice();
+					       		double price = type.getPrice() * (1 - discount/100.0);
 					       		String image = type.getImageUrl();
 					       	%>
 								<option value="<%out.print(id);%>" data-prc="<%out.print(price);%>" data-img="images/room-types/<%out.print(image);%>"><%out.print(size);%> sq ft</option>

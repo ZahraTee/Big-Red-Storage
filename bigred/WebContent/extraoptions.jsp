@@ -34,13 +34,14 @@
 		<form action="extra_options_submit" method="get" class="form-horizontal">
 		<div class = "col-md-6 col-sm-6">
 		<%
+		int discount = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getDiscount();
        	List<BookingOption> list = BookingOption.getBookingOptions(((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getId());
        	for(BookingOption option : list) {
        		
        		int id = option.getId();
        		String name = option.getName();
        		String description = option.getDescription();
-       		double price = option.getPrice();
+       		double price = option.getPrice() * (1 - discount/100.0);
        		String price_type = option.getPriceType();
        	%>
 		    <div class="form-group">
@@ -61,7 +62,7 @@
 		<div class = "col-md-4 col-md-offset-1 col-sm-5">
 			<div class ="quote redbox">
 				<span>£</span>
-				<span id="weekly_cost"><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice());%></span>
+				<span id="weekly_cost"><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice() * (1 - discount/100.0));%></span>
 				<span> - weekly cost</span>
 			</div>
 			<div class ="quote redbox">
