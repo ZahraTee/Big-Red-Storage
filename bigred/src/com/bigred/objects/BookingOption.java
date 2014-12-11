@@ -74,7 +74,8 @@ public class BookingOption {
 		ResultSet resultSet = null;
 		
 		List<BookingOption> booking_options_list = new ArrayList<BookingOption>();
-		
+		if(option_ids.length()==2)
+			return booking_options_list;
         try {
         	Context initContext  = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");

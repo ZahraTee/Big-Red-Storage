@@ -34,16 +34,12 @@ public class IntervalServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String interval_submit = request.getParameter("interval_submit");
-		
-		if (interval_submit != null){
+			
 	        String start = request.getParameter("startDate");
 	        String end_type = request.getParameter("endDate_type");
 	        String end = request.getParameter("endDate");
 	        String days = request.getParameter("days");
 	        String days_type = request.getParameter("days_type");
-	        
 	        Date start_date = null;
 	    	Date end_date = null;
 	    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -84,15 +80,18 @@ public class IntervalServlet extends HttpServlet {
 	            	e.printStackTrace();
 	            }
 	        }
-	        
 	        SessionState state = (SessionState)request.getSession().getAttribute("State");
-			state.getBooking().setDate(start_date,end_date);
-			
-            response.sendRedirect("roomsizes.jsp");
-        }
-		else {
-			response.sendRedirect("index.jsp");
-		}
+			if(start_date==null || end_date==null || end_date.before(start_date))
+			{
+				System.out.println("Not Valid Dates");
+				response.sendRedirect("roomdates.jsp");
+			}
+			else
+			{
+				state.getBooking().setDate(start_date,end_date);			
+            	response.sendRedirect("roomsizes.jsp");
+			}
+        
 	}
 
 	/**

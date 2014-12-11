@@ -27,6 +27,7 @@ public class ConfirmBookingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SessionState state = (SessionState)request.getSession().getAttribute("State");
 		state.getBooking().bookingConfirmed(state.getCustomer());
+		state.setBooking(new Booking());
 		response.sendRedirect("profile.jsp");	
 	}
 

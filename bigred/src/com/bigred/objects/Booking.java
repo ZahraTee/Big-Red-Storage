@@ -10,12 +10,72 @@ import javax.sql.DataSource;
 public class Booking {
 	
 	
+	public static List<Booking> allBookingsOf(Customer customer)
+	{
+		List<Booking> list = new ArrayList<>();
+		DataSource dataSource=null;
+	    Connection connection=null;
+	    Statement statement=null;		
+		ResultSet resultSet = null,set=null;
+        try {
+        	Context initContext  = new InitialContext();
+            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+            dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+            // Get Connection and Statement
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            String query = "SELECT b.booking_id, r.branch_id, "
+            		+ "r.room_type_id AS room_type_id, b.start_date, b.end_date, b.total_price "
+            		+ "FROM Bookings b, Rooms r WHERE b.room_id=r.room_id "
+            		+ "AND customer_id="+customer.getId();
+            
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                Booking b = new Booking();
+                b.id=resultSet.getInt("booking_id");
+                b.roomType=RoomType.getRoomType(resultSet.getInt("room_type_id"));
+                b.branch=Branch.getBranch(resultSet.getInt("branch_id"));
+                b.price=resultSet.getDouble("total_price");
+                b.startDate=resultSet.getTimestamp("start_date");
+                b.endDate=resultSet.getTimestamp("end_date");
+                Statement st = connection.createStatement();
+                set = st.executeQuery("SELECT booking_option_id FROM "
+                		+ "Booking_options_to_Bookings WHERE booking_id="+b.id);
+                String str="(";
+                boolean first=true;
+                while(set.next())
+                {
+                	if(first)
+                		first=false;
+                	else
+                		str+=",";
+                	str+=set.getInt("booking_option_id");
+                }
+                str+=")";
+                b.options=BookingOption.getBookingOptionsById(str);
+                list.add(b);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=statement)statement.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+            try { if(null!=connection)connection.close();} catch (SQLException e) 
+            {e.printStackTrace();}
+        }
+		return list;
+	}
+	
 	private int lastPage=1;
 	private int id;
 	private Branch branch;
 	private Date startDate,endDate;
 	private RoomType roomType;
 	private List<BookingOption> options;
+	private double price;
+	
 	public Booking()
 	{
 		lastPage=1;
@@ -54,13 +114,27 @@ public class Booking {
 		try { 
 			Context initContext  = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
+			ResultSet set;
 			 dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
 	           conn = dataSource.getConnection();
 	            st = conn.createStatement();
-	            
+	            java.sql.Date sd = new java.sql.Date(startDate.getTime());
+	    		java.sql.Date ed = new java.sql.Date(endDate.getTime());
 	            //TO-DO find a room_id
 	            int roomId=1;
+	            String SQL_QUERY =
+	            		"SELECT room_id FROM Rooms "+
+	            		"WHERE branch_id = "+branch.getId()+" AND room_id NOT IN "+
+	            		"( "+
+	            		"  SELECT room_id FROM Booked_rooms "+
+	            		"  WHERE (start_date<='"+sd+"' AND '"+sd+"' <=end_date) OR "+
+	            		"        (start_date<='"+ed+"' AND '"+ed+"' <=end_date) "+
+	            		"  GROUP BY room_id "+
+	            		") ";
 	            
+	            set=st.executeQuery(SQL_QUERY);
+	       set.next();
+	       roomId=set.getInt("room_id");
 	          //Insert Booked_Room.
            st.executeUpdate("INSERT INTO Booked_rooms (room_id,start_date,end_date) " + 
                "VALUES ("+roomId+", '"+new java.sql.Date(startDate.getTime())+"', '"+new java.sql.Date(endDate.getTime())+"')"); 
@@ -72,7 +146,7 @@ public class Booking {
                    "VALUES ("+customerId+", "+roomId+", '"+new java.sql.Date(new Date().getTime())+"', '"+new java.sql.Date(startDate.getTime())+"', '"+new java.sql.Date(endDate.getTime())+"', "+totalCost(discount)+")"
                    ,Statement.RETURN_GENERATED_KEYS);
            statement.executeUpdate(); 
-           ResultSet set = statement.getGeneratedKeys();
+           set = statement.getGeneratedKeys();
            if(set.next())
            		this.id=(int)set.getLong(1);
            
@@ -88,11 +162,12 @@ public class Booking {
            conn.close(); 
        } catch (Exception e) { 
            System.err.println(e.getMessage()); 
-       } 
-		//TO-DO
-		//Write to the database all what has been done
+       }
 	}
-	
+	public void setPrice(double price)
+	{
+		this.price= price;
+	}
 
 	public Branch getBranch()
 	{
@@ -143,10 +218,29 @@ public class Booking {
 	}
 	public double totalCost()
 	{
-		return getWeeklyCost()+getExtraCost();
+		double timeInWeeks = (double)(endDate.getTime()-startDate.getTime())/(1000.0*60*60*24*7);
+		return timeInWeeks*getWeeklyCost()+getExtraCost();
 	}
 	public double totalCost(int discount)
 	{
 		return totalCost()*(1-discount/100.0);
+	}
+
+	public String toString()
+	{
+		String str="";
+		str+="Booking Id: "+id;
+		str+="\nStarts: "+startDate;
+		str+="\nEnds: "+endDate;
+		str+="\nRoom Type: "+roomType.getName();
+		if(options.size()!=0)
+		{
+			str+="\nExtra Features:";
+			for(BookingOption option : options)
+				str+="\n\t"+option.getName();
+		}
+		str+="\nTotal Price: "+String.format("%.2f",price)+"£";
+		str+="\nLocation:\n"+branch.getAddress();
+		return str;
 	}
 }

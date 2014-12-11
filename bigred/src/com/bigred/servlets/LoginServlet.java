@@ -2,13 +2,10 @@ package com.bigred.servlets;
 
 import com.bigred.objects.Customer;
 import com.bigred.objects.Booking;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.annotation.*;
+import javax.servlet.http.*;
 import com.bigred.objects.SessionState;
 
 /**
@@ -44,12 +41,16 @@ public class LoginServlet extends HttpServlet {
         if (login_submit != null){
         	SessionState state = (SessionState)request.getSession().getAttribute("State");
 			Customer customer = Customer.findCustomer(username, password);
+			
 			if (customer == null) {
 				 PrintWriter out= response.getWriter();
 		         out.println("Wrong username or password!");
 			}
 			else {
 				state.setCustomer(customer);
+				Cookie c = new Cookie("CustomerId",""+customer.getId());
+				c.setMaxAge(60*60*24*7);
+				response.addCookie(c);
 				if (state.getBooking() == null) {
 					state.setBooking(new Booking());
 					response.sendRedirect("profile.jsp");

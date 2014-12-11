@@ -12,6 +12,44 @@ public class Account
 {
 	private String username;
 	private String password;
+	
+	public static boolean isValidUserName(String username)
+	{
+		DataSource dataSource=null;
+		 Connection connection=null;
+		 Statement statement=null;
+			boolean result = true;
+			
+			ResultSet resultSet = null;
+	        try {
+	        	Context initContext  = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+	            // Get Connection and Statement
+	            connection = dataSource.getConnection();
+	            statement = connection.createStatement();
+	            String query = "SELECT  * FROM Accounts WHERE username = '"+username+"'";
+	            resultSet = statement.executeQuery(query);
+	            
+	            if (resultSet.next()) {
+	            	result=false;
+	            }
+	            
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }finally {
+	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=statement)statement.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=connection)connection.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	        }
+	        
+	        return result;
+	}
+	
 	public Account(String username,String password)
 	{
 		this.username=username;

@@ -19,7 +19,6 @@ public class Customer {
 
 	public static Customer getCustomerFromCookieValue(String value)
 	{
-		//for now
 		return getCustomer(Integer.parseInt(value));
 	}
 	public static Customer getCustomer(int index)
@@ -179,5 +178,179 @@ public class Customer {
 	public String getPhone()
 	{
 		return phone;
+	}
+	
+	public String[] getAddress()
+	{
+		String address[] = new String[5];
+		
+		DataSource dataSource=null;
+		 Connection connection=null;
+		 Statement statement=null;
+			
+			ResultSet resultSet = null;
+	        try {
+	        	Context initContext  = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+	            // Get Connection and Statement
+	            connection = dataSource.getConnection();
+	            statement = connection.createStatement();
+	            String query = "SELECT * FROM Customer_addresses WHERE customer_id = "+id;
+	            resultSet = statement.executeQuery(query);
+	            
+	            if (resultSet.next()) {
+	            	address[0]=resultSet.getString("address1");
+	            	address[1]=resultSet.getString("address2");
+	            	address[2]=resultSet.getString("postcode");
+	            	address[3]=resultSet.getString("city");
+	            	address[4]=resultSet.getString("country");
+	            }
+	            else {
+	            	address[0]="";
+	            	address[1]="";
+	            	address[2]="";
+	            	address[3]="";
+	            	address[4]="";
+	            }
+	            
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }finally {
+	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=statement)statement.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=connection)connection.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	        }
+		return address;
+	}
+	
+	public void updateDetails(String firstName,String lastName,String email,String phone)
+	{
+		DataSource dataSource=null;
+		 Connection connection=null;
+		 Statement statement=null;
+			
+			ResultSet resultSet = null;
+	        try {
+	        	Context initContext  = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+	            // Get Connection and Statement
+	            connection = dataSource.getConnection();
+	            statement = connection.createStatement();
+	            
+	            String update ="UPDATE Customers"
+	            		+ " SET first_name = '"+firstName
+	            		+ "', last_name = '"+lastName
+	            		+ "', email = '"+email
+	            		+ "', phone = '"+phone
+	            		+ "' WHERE customer_id = "+id;
+	            statement.executeUpdate(update);
+	            this.firstName=firstName;
+	            this.lastName=lastName;
+	            this.email=email;
+	            this.phone=phone;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }finally {
+	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=statement)statement.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=connection)connection.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	        }
+	}
+	public void changePassword(String password)
+	{
+		DataSource dataSource=null;
+		 Connection connection=null;
+		 Statement statement=null;
+			
+			ResultSet resultSet = null;
+	        try {
+	        	Context initContext  = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+	            // Get Connection and Statement
+	            connection = dataSource.getConnection();
+	            statement = connection.createStatement();
+	            
+	            String update ="UPDATE Accounts "
+	            		+ "SET password = '"+password
+	            		+ "' WHERE username = '"+account.getUserName()+"'";
+	            statement.executeUpdate(update);
+	            account=new Account(account.getUserName(),password);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }finally {
+	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=statement)statement.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=connection)connection.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	        }
+	}
+	public void addAddress(String address1,String address2,String city,String country,String postcode)
+	{		
+		DataSource dataSource=null;
+		 Connection connection=null;
+		 Statement statement=null;
+			
+			ResultSet resultSet = null;
+	        try {
+	        	Context initContext  = new InitialContext();
+				Context envContext  = (Context)initContext.lookup("java:/comp/env");
+				dataSource = (DataSource)envContext.lookup("jdbc/sql260399");
+	            // Get Connection and Statement
+	            connection = dataSource.getConnection();
+	            statement = connection.createStatement();
+	            String query = "SELECT address_id FROM Customer_addresses WHERE customer_id = "+id;
+	            resultSet = statement.executeQuery(query);
+	            
+	            if (!resultSet.next()) 
+	            {
+	            	System.out.println("New");
+	            	statement.executeUpdate("INSERT INTO Customer_addresses "
+	            			+ "(customer_id,address1,address2,city,country,postcode) " + 
+	                        "VALUES ("+id+", '"+address1+"', '"+address2+"', '"+city+"', '"+country+"', '"+postcode+"')"); 
+	            }
+	            else
+	            {
+	            	System.out.println("Old");
+	            	statement.executeUpdate("UPDATE Customer_addresses SET"
+	            			+ " address1 = '" +address1
+	            			+ "', address2 = '" +address2
+	            			+ "', city = '" +city
+	            			+ "', country = '" +country
+	            			+ "', postcode = '" +postcode
+	                        + "' WHERE customer_id = "+id); 
+	            }
+	            
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }finally {
+	            try { if(null!=resultSet)resultSet.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=statement)statement.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	            try { if(null!=connection)connection.close();} catch (SQLException e) 
+	            {e.printStackTrace();}
+	        }
+		
+		}
+	public String toString()
+	{
+		String str="";
+		str+="Name: "+lastName+", "+firstName;
+		str+="\nEmail: "+email;
+		str+="\nPhone: "+(phone.equals("")?"Not Registered":phone);
+		return str;
 	}
 }

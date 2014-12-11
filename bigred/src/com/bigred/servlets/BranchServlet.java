@@ -1,5 +1,7 @@
 package com.bigred.servlets;
 
+import com.bigred.objects.Account;
+import com.bigred.objects.Booking;
 import com.bigred.objects.SessionState;
 import com.bigred.objects.Branch;
 
@@ -32,11 +34,12 @@ public class BranchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String branch_submit = request.getParameter("branch_id_submit");
         String branch = request.getParameter("branch_id");
-        
         if (branch_submit != null){
         	SessionState state = (SessionState)request.getSession().getAttribute("State");
-			state.getBooking().setBranch(Branch.getBranch(Integer.parseInt(branch)));
-            response.sendRedirect("roomdates.jsp");
+        	if(state.getBooking()==null)
+        		state.setBooking(new Booking());
+        	state.getBooking().setBranch(Branch.getBranch(Integer.parseInt(branch)));
+			response.sendRedirect("roomdates.jsp");
         }
         else {
         	response.sendRedirect("index.jsp");
