@@ -62,7 +62,7 @@
 		<div class = "col-md-4 col-md-offset-1 col-sm-5">
 			<div class ="quote redbox">
 				<span>£</span>
-				<span id="weekly_cost"><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice() * (1 - discount/100.0));%></span>
+				<span id="weekly_cost"><%out.print((int)(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice() * (1 - discount/100.0)));%></span>
 				<span> - weekly cost</span>
 			</div>
 			<div class ="quote redbox">
