@@ -19,7 +19,8 @@
 	<body>
 
     <%@ include file="/nav-bar.jsp" %>
-
+	<% com.bigred.objects.SessionState.assertAccessValidity(request,response,4); %>
+	
 
 	<div class="container">
 		<div class = "page-header">
@@ -34,8 +35,13 @@
 		<form action="extra_options_submit" method="get" class="form-horizontal">
 		<div class = "col-md-6 col-sm-6">
 		<%
-		int discount = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getDiscount();
-       	List<BookingOption> list = BookingOption.getBookingOptions(((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getId());
+		com.bigred.objects.SessionState state = (com.bigred.objects.SessionState)session.getAttribute("State");
+		int discount=-1;
+		boolean validPage = state.getBooking()!=null && state.getBooking().getLastPage()>=4;
+		if(validPage)
+		{
+		discount = state.getCustomer().getCustomerType().getDiscount();
+       	List<BookingOption> list = BookingOption.getBookingOptions(state.getCustomer().getCustomerType().getId());
        	for(BookingOption option : list) {
        		
        		int id = option.getId();
@@ -54,6 +60,7 @@
 			</div>
 		<%
        	}
+		}
 		%>			  	
 			
 		</div>
@@ -62,7 +69,7 @@
 		<div class = "col-md-4 col-md-offset-1 col-sm-5">
 			<div class ="quote redbox">
 				<span>£</span>
-				<span id="weekly_cost"><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice() * (1 - discount/100.0));%></span>
+				<span id="weekly_cost"><%out.print(!validPage?"":state.getBooking().getRoomType().getPrice() * (1 - discount/100.0));%></span>
 				<span> - weekly cost</span>
 			</div>
 			<div class ="quote redbox">

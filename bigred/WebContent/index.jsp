@@ -26,7 +26,9 @@
 		<div class="container">
 
 			<%
-			if (customer_logged_in) {
+			if(response.getStatus()==302)
+				System.out.println("That was the Bug!");
+			if (customer_logged_in && response.getStatus()!=302) {
 					response.sendRedirect("location.jsp");
 			    }
 			%>

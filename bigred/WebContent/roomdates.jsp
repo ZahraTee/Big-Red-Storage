@@ -17,6 +17,7 @@
 	<body>
 
      <jsp:include page="nav-bar.jsp" />
+	<% com.bigred.objects.SessionState.assertAccessValidity(request,response,2); %>
 
 		<div class="container">
 			<div class = "page-header">
@@ -37,7 +38,7 @@
 		        <div class="form-group">
 		            <label for="startDate" class="control-label col-xs-4">Start Date</label>
 		            <div class="col-xs-8">
-		                <input type="date" class="form-control" id="startDate" name="startDate" placeholder="DD-MM-YYYY">
+		                <input type="date" class="form-control" id="startDate" name="startDate" placeholder="YYYY-MM-DD">
 		            </div>
 		        </div>
 		        <div class="form-group">
@@ -47,7 +48,7 @@
 		            	End Date
 		            </label>
 		            <div id="div_endDate" class="col-xs-8">
-		                <input type="date" class="form-control" id="endDate" name="endDate" placeholder="DD-MM-YYYY">
+		                <input type="date" class="form-control" id="endDate" name="endDate" placeholder="YYYY-MM-DD">
 		            </div>
 		        </div>
 		        <div class="form-group">

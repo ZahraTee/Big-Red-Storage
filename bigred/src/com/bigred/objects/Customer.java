@@ -120,6 +120,10 @@ public class Customer {
         } 
 		
 	}
+	public Account getAccount()
+	{
+		return account;
+	}
 	public static Customer findCustomer(String username,String password)
 	{
 		DataSource dataSource=null;
@@ -159,6 +163,14 @@ public class Customer {
 		return customerIndex==-1?null:getCustomer(customerIndex);
 	}
 
+	public String getFirstName()
+	{
+		return firstName;
+	}
+	public String getLastName()
+	{
+		return lastName;
+	}
 	public String getName()
 	{
 		return lastName+", "+firstName;
@@ -177,7 +189,7 @@ public class Customer {
 	}
 	public String getPhone()
 	{
-		return phone;
+		return phone==null?"Not Regesterd":phone;
 	}
 	
 	public String[] getAddress()

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.bigred.objects.Booking"%>
+<%@page import="com.bigred.objects.*"%>
 <%@page import="java.util.Date"%>
 <html lang="en">
 	<head>
@@ -15,43 +15,35 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		
+		<style type="text/css">
+			.wael 
+			{
+    			float:right;
+    		}
+        </style>
+    
 
 	</head>
 	<body>
+	<%  
+	boolean detailsB=false,addressB=false,passwordB=false;
+	String result = request.getParameter("BooleanArgs");
+	if(result!=null)
+	{
+		detailsB=result.substring(0,1).equals("1");
+		addressB=result.substring(1,2).equals("1");
+		passwordB=result.substring(2,3).equals("1");
+	}
+	%>
+    <%@ include file="/nav-bar.jsp" %>
+    
 
-    <nav role="navigation" class="navbar navbar-default">
-
-        <!-- Brand and toggle get grouped for better mobile display -->
-
-        <div class="navbar-header">
-            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="index.jsp" class="navbar-brand">Big Red Storage Company</a>
-        </div>
-
-        <!-- Collection of nav links, forms, and other content for toggling -->
-
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="index.jsp">Home</a></li>
-                <li><a href="index.html"></a></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-				 <li><a href="logout">Log Out</a></li>
-			</ul>
-
-        </div>
-
-    </nav>
-
-
-
+		<% 
+			SessionState state = (SessionState)request.getSession().getAttribute("State");
+        	if(state.getCustomer()!=null && state.getCustomer().isLoggedIn())
+        	{
+		%>
 
 <div class="container">
 
@@ -66,18 +58,63 @@
 		            <h3 class="panel-title">My Details</h3>
 		        </div>
 				<%
-				com.bigred.objects.Customer customer = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer();
+				com.bigred.objects.Customer c = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer();
+        		String name = c.getName(),email=c.getEmail(),
+        				fullName=c.getName(),firstName=c.getFirstName(),lastName=c.getLastName(),phone=c.getPhone();
         		%>
+        		<% if(!detailsB)
+        			{%>
 		        <div class="panel-body">
 		            <li class = "list-unstyled">
-		            	<ul>Name: <b><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getName());%></b></ul>
-		            	<ul>Email: <b><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getEmail());%></b></ul>
-		            	<ul>Phone: <b><%out.print(((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getPhone());%></b></ul>
+		            	<ul>Name: <b><%out.print(fullName);%></b></ul>
+		            	<ul>Email: <b><%out.print(email);%></b></ul>
+		            	<ul>Phone: <b><%out.print(phone);%></b></ul>
 		            </li>
 		        </div>
 		        <div class="panel-footer">
-	                <a href="javascript:;" class="btn btn-primary col-sm-12">Edit Details</a>
+	                <a href="profile.jsp?BooleanArgs=100" class="btn btn-primary col-sm-12">Edit Details</a>
 		        </div>
+		        <%}else{ %>
+		        <div class="panel-body">
+		        <form action="update_details" method="get">
+		            	<label>First Name:</label>
+		            	<input  type="text" size="30" id="firstName" name="firstName" placeholder="<% out.print(firstName);%>">		            	            	
+		            	<br>
+		            	<label>Last Name:</label>
+		            	<input  type="text" size="30" id="lastName" name="lastName" placeholder="<% out.print(lastName);%>">		            
+						<br>
+		            	<label>Email:</label>
+		            	<input  type="text" size="30" id="email" name="email" placeholder="<% out.print(email);%>">		            
+						<br>
+		            	<label>Phone:</label>
+		            	<input  type="text" size="30" id="phone" name="phone" placeholder="<% out.print(phone);%>">		            								                    
+						<div class="panel-footer">
+	                	<input type="submit" value="Edit Details" class="btn btn-primary col-sm-12">
+		        		</div>
+					</form>
+					</div>
+					</div>
+		        <%} %>
+		        <% if(!passwordB)
+        			{%>		        
+		        <div class="panel-footer">
+	                <a href="profile.jsp?BooleanArgs=001" class="btn btn-primary col-sm-12">Change Password</a>
+		        </div>
+		        <%}else{ %>
+		        <div class="panel-body">
+		        <form action="update_password" method="p">
+		            	<label>Old Password:</label>
+		            	<input  type="password" size="30" id="oldPassword" name="oldPassword" placeholder="***************">		            	            	
+		            	<br>
+		            	<label>New Password:</label>
+		            	<input  type="password" size="30" id="newPassword" name="newPassword" placeholder="***************">		            						            								                    
+						<div class="panel-footer">
+	                	<input type="submit" value="Change Password" class="btn btn-primary col-sm-12">
+		        		</div>
+					</form>
+					</div>
+					</div>
+		        <%} %>
 		    </div>
 		</div>
 		
@@ -90,22 +127,50 @@
 				String[] address = customer.getAddress();
         		%>
 		        <div class="panel-body">
-		            <li class = "list-unstyled">
+		        <%if(!addressB){%>
+		            <div>
 		            	<ul>Address1: <b><%out.print(address[0]);%></b></ul>
 		            	<ul>Address2: <b><%out.print(address[1]);%></b></ul>
 		            	<ul>Postcode: <b><%out.print(address[2]);%></b></ul>
 		            	<ul>City: <b><%out.print(address[3]);%></b></ul>
 		            	<ul>Country: <b><%out.print(address[4]);%></b></ul>
-		            </li>
-		        </div>
-		        <div class="panel-footer">
-	                <a href="javascript:;" class="btn btn-primary col-sm-12">Edit Address</a>
-		        </div>
+		            </div>
+		           	         
+		            </div>
+		        	<div class="panel-footer">
+		        	<a href="profile.jsp?BooleanArgs=010" class="btn btn-primary col-sm-12">Edit Address</a>
+		        	</div>
+		         <%} else { %>
+		            <form action="update_address" method="get">
+		            	<label>Address1:</label>
+		            	<input  type="text" size="30" id="address1" name="address1" placeholder="<% out.print(address[0]);%>">		            	            	
+		            	<br>
+		            	<label>Address2:</label>
+		            	<input  type="text" size="30" id="address2" name="address2" placeholder="<% out.print(address[1]);%>">		            
+						<br>
+		            	<label>Postcode:</label>
+		            	<input  type="text" size="30" id="postcode" name="postcode" placeholder="<% out.print(address[2]);%>">		            
+						<br>
+		            	<label>City:</label>
+		            	<input  type="text" size="30" id="city" name="city" placeholder="<% out.print(address[3]);%>">		            
+						<br>
+		            	<label>Country:</label>
+		            	<input  type="text" size="30" id="country" name="country" placeholder="<% out.print(address[4]);%>">		            
+						<div class="panel-footer">
+	                	<input type="submit" value="Edit Address" class="btn btn-primary col-sm-12">
+		        		</div>
+					</form>
+					</div>
+		        
+					<%} %>
+					
+		        
 		    </div>
-		</div>
+		    </div>
+		    
+		  		
 
-		<div class="col-md-6 col-sm-6">
-		</div>
+
 	</div>
 	
 	<div class="row">
@@ -129,23 +194,26 @@
 		            	<li>Ref No.: <b><%out.print(id);%></b></li>
 		            	<li>Start: <b><%out.print(startDate.toString());%></b></li>
 		            	<li>End: <b><%out.print(endDate.toString());%></b></li>
-		            	<li>Total price: <b><%out.print(price);%></b></li>
+		            	<li>Total price: <b><%out.print(String.format("%.2f£",price));%></b></li>
 		            </ul>
 		            </div>
 		            <%
 		            }
-		        %>
-		            <div class="booking past">
-		            	<ul class="list-unstyled">
-		            	<li>Ref No. #123456</li>
-		            	<li>Starts 12-12-14</li>
-		            	<li>Detail</li>
-		            </ul>
-		            </div>
+		        %>		        
 		        </div>
 		    </div>
 		</div>
-		
+		<div class="panel-body">
+			<form action="new_booking" method="get">
+		    <div class="col-sm-6">
+		    <div class="panel panel-defaut">		    
+		        <div class="panel-body">
+	                <a href="new_booking" class="btn btn-primary col-sm-12">Make A New Booking</a>
+		        </div>
+		    </div>
+			</div>
+	        </form>
+		</div>
 	</div>
 	
 
@@ -154,3 +222,7 @@
 	</body>
 	
 </html>
+<%}
+	else if(response.getStatus()!=302)
+		response.sendRedirect("index.jsp");
+%>

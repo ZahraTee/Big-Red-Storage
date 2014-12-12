@@ -23,6 +23,7 @@
 	<body>
 
     <%@ include file="/nav-bar.jsp" %>
+	<% com.bigred.objects.SessionState.assertAccessValidity(request,response,3); %>
 
 		<div class="container">
 			<div class = "page-header">
@@ -42,10 +43,13 @@
 		            <div id="div_days_type" class="col-xs-5">
 						<select id="room_type" name="room_type" class="form-control">
 							<%
-							int discount = ((com.bigred.objects.SessionState)session.getAttribute("State")).getCustomer().getCustomerType().getDiscount();
-							Date startDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getStartDate();
-							Date endDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getEndDate();
-							List<RoomType> list = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getBranch().getAvailableTypes(startDate, endDate);
+							com.bigred.objects.SessionState state = (com.bigred.objects.SessionState)session.getAttribute("State");
+							if(state.getBooking()!=null && state.getBooking().getLastPage()>=3)
+							{
+		            		int discount = state.getCustomer().getCustomerType().getDiscount();
+							Date startDate = state.getBooking().getStartDate();
+							Date endDate = state.getBooking().getEndDate();
+							List<RoomType> list = state.getBooking().getBranch().getAvailableTypes(startDate, endDate);
 					       	for(RoomType type : list) {
 					       		int id = type.getId();
 					       		double size = type.getSize();
@@ -55,6 +59,7 @@
 								<option value="<%out.print(id);%>" data-prc="<%out.print(price);%>" data-img="images/room-types/<%out.print(image);%>"><%out.print(size);%> sq ft</option>
 							<%
 					       	}
+							}
 							%>
 						</select> 
 				    </div>

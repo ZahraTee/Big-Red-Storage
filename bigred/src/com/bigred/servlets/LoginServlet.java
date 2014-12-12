@@ -2,10 +2,13 @@ package com.bigred.servlets;
 
 import com.bigred.objects.Customer;
 import com.bigred.objects.Booking;
+
 import java.io.*;
+
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
+
 import com.bigred.objects.SessionState;
 
 /**
@@ -43,8 +46,12 @@ public class LoginServlet extends HttpServlet {
 			Customer customer = Customer.findCustomer(username, password);
 			
 			if (customer == null) {
-				 PrintWriter out= response.getWriter();
-		         out.println("Wrong username or password!");
+				PrintWriter out = response.getWriter();  
+				response.setContentType("text/html");  
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('Login Details are not Valid');");
+				out.println("location='review.jsp';");
+				out.println("</script>");
 			}
 			else {
 				state.setCustomer(customer);

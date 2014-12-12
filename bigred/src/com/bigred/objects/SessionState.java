@@ -45,7 +45,7 @@ public class SessionState {
 	//for profile.jsp pageIndex=7
 	public static void assertAccessValidity(HttpServletRequest request,HttpServletResponse response,int pageIndex) throws IOException
 	{
-		String pages[] = new String[]{"index.jsp","location.jsp","roomdates.jsp","roomsizes.jsp","extraoptions.jsp","review.jsp","payment.html","profile.jsp"};
+		String pages[] = new String[]{"index.jsp","location.jsp","roomdates.jsp","roomsizes.jsp","extraoptions.jsp","review.jsp","payment.jsp","profile.jsp"};
 		SessionState state = (SessionState)request.getSession().getAttribute("State");
 		boolean loggedIn =false;
 		if(state.getCustomer()!=null && state.getCustomer().isLoggedIn())

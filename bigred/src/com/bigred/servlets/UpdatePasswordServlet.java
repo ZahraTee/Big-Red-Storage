@@ -17,14 +17,14 @@ import com.bigred.objects.SessionState;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/update_password")
+public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterServlet() {
+    public UpdatePasswordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,24 +35,20 @@ public class RegisterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SessionState state = (SessionState)request.getSession().getAttribute("State");
 		Customer customer = state.getCustomer();
-
-		String 	firstName = request.getParameter("first_name"),
-				lastName = request.getParameter("surname"),
-				username = request.getParameter("username"),
-				email = request.getParameter("email"),
-				password = request.getParameter("password");
-		if(Account.isValidUserName(username))
-		{
-			customer.register(firstName,lastName,email,username,password);
-			response.sendRedirect("review.jsp");
-		}
+		String oldPassword = request.getParameter("oldPassword");
+		if(Customer.findCustomer(customer.getAccount().getUserName(),oldPassword)!=null)
+			{
+			String 	password = request.getParameter("newPassword");
+			customer.changePassword(password);
+			response.sendRedirect("profile.jsp");
+			}
 		else
 		{
 			PrintWriter out = response.getWriter();  
 			response.setContentType("text/html");  
 			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Username Already Used');");
-			out.println("location='review.jsp';");
+			out.println("alert('Old Password Incorrect');");
+			out.println("location='profile.jsp?BooleanArgs=001';");
 			out.println("</script>");
 		}
 	}

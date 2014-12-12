@@ -16,7 +16,7 @@
 	<body>
 
 		<%@ include file="/nav-bar.jsp" %>
-
+		<%com.bigred.objects.SessionState.assertAccessValidity(request,response,6); %>
 
 		<div class="container">
 

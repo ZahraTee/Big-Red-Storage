@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="java.util.Date"%>
+<%@page import="java.text.*" %>
 
 <html lang="en">
 	<head>
@@ -17,7 +18,7 @@
 	<body>
 
 	    <%@ include file="/nav-bar.jsp" %>
-
+		<% com.bigred.objects.SessionState.assertAccessValidity(request,response,5); %>
 
 
 
@@ -42,32 +43,44 @@
 				        </div>
 						<%
 						
-						
-						
-						String location = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getBranch().getName();
-						Date startDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getStartDate();
-						Date endDate = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getEndDate();
-						double roomSize = ((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getSize();
+						com.bigred.objects.SessionState state = (com.bigred.objects.SessionState)session.getAttribute("State");
+						String location="";
+						String startDate=null,endDate=null;
+						double roomSize=-1;
+						if(state.getBooking()!=null && state.getBooking().getLastPage()>=5)
+						{
+							location = state.getBooking().getBranch().getName();
+							startDate = DateFormat.getDateTimeInstance(
+						            DateFormat.MEDIUM, DateFormat.SHORT).format(state.getBooking().getStartDate());
+							endDate = DateFormat.getDateTimeInstance(
+						            DateFormat.MEDIUM, DateFormat.SHORT).format(state.getBooking().getEndDate());
+							roomSize = state.getBooking().getRoomType().getSize();
+						}
 					
 						%>
 				        <div class="panel-body">
 				            <li class = "list-unstyled">
 				            	<ul>Location: <b><%out.print(location);%></b></ul>
-				            	<ul>Start Date: <b><%out.print(startDate.toString());%></b></ul>
-				            	<ul>End Date: <b><%out.print(endDate.toString());%></b></ul>
+				            	<ul>Start Date: <b><%out.print(startDate);%></b></ul>
+				            	<ul>End Date: <b><%out.print(endDate);%></b></ul>
 				            	<ul>Room Size: <b><%out.print(roomSize);%> feet</b></ul>
 				            </li>
 				        </div>
 
 				        <div class="panel-footer">
-				            <span>Save Quote for Later</span>
+				            <span>Save Quote For Later</span>
+				            
 				            <form class="form-horizontal pull-right">
 			                        <div class="control-group">
+			                        <% if(!state.getCustomer().isLoggedIn()) 
+				            		{%>
 			                            <input placeholder="E-mail" name="email" type="email" autofocus="">
+			                            <%} %>
 			                        <!-- Change this to a button or input when using this as a form -->
-			                        <a href="javascript:;" class="btn btn-default">Send e-mail</a>
+			                        <a onclick="alert('Email Sent!')" class="btn btn-default">Send e-mail</a>
 			                        </div>
 			                </form>
+			                
 				        </div>
 				    </div>
 

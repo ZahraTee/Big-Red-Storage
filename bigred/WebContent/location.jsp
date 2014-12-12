@@ -18,7 +18,8 @@
 	<body>
 	
     <%@ include file="/nav-bar.jsp" %>
-
+	<% com.bigred.objects.SessionState.assertAccessValidity(request,response,1); %>
+	
 <div class="container">
 
 	<div class = "page-header">

@@ -17,14 +17,14 @@ import com.bigred.objects.SessionState;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/update_address")
+public class UpdateAddressServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterServlet() {
+    public UpdateAddressServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,25 +36,13 @@ public class RegisterServlet extends HttpServlet {
 		SessionState state = (SessionState)request.getSession().getAttribute("State");
 		Customer customer = state.getCustomer();
 
-		String 	firstName = request.getParameter("first_name"),
-				lastName = request.getParameter("surname"),
-				username = request.getParameter("username"),
-				email = request.getParameter("email"),
-				password = request.getParameter("password");
-		if(Account.isValidUserName(username))
-		{
-			customer.register(firstName,lastName,email,username,password);
-			response.sendRedirect("review.jsp");
-		}
-		else
-		{
-			PrintWriter out = response.getWriter();  
-			response.setContentType("text/html");  
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Username Already Used');");
-			out.println("location='review.jsp';");
-			out.println("</script>");
-		}
+		String 	address1 = request.getParameter("address1"),
+				address2 = request.getParameter("address2"),
+				city = request.getParameter("city"),
+				country = request.getParameter("country"),
+				postcode = request.getParameter("postcode");
+		customer.addAddress(address1,address2,city,country,postcode);
+		response.sendRedirect("profile.jsp");
 	}
 
 	/**
