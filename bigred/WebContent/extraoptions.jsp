@@ -69,11 +69,7 @@
 		<div class = "col-md-4 col-md-offset-1 col-sm-5">
 			<div class ="quote redbox">
 				<span>£</span>
-<<<<<<< HEAD
 				<span id="weekly_cost"><%out.print(!validPage?"":state.getBooking().getRoomType().getPrice() * (1 - discount/100.0));%></span>
-=======
-				<span id="weekly_cost"><%out.print((int)(((com.bigred.objects.SessionState)session.getAttribute("State")).getBooking().getRoomType().getPrice() * (1 - discount/100.0)));%></span>
->>>>>>> FETCH_HEAD
 				<span> - weekly cost</span>
 			</div>
 			<div class ="quote redbox">
