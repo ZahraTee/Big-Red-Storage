@@ -102,6 +102,10 @@ public class Booking {
 		this.options=options;
 		lastPage=5;
 	}
+	public void goToPayment()
+	{
+		lastPage=6;
+	}
 	
 	//TO-DO: find a room
 	public void bookingConfirmed(Customer customer)

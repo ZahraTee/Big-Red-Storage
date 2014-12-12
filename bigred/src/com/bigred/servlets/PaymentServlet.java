@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.bigred.objects.*;
 /**
  * Servlet implementation class PaymentServlet
  */
@@ -26,6 +26,9 @@ public class PaymentServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Booking b = ((SessionState)request.getSession().getAttribute("State")).getBooking();
+		if(b!=null)
+			b.goToPayment();
 		response.sendRedirect("payment.jsp");
 	}
 
